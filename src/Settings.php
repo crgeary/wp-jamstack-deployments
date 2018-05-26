@@ -56,6 +56,10 @@ class Settings
      */
     public static function sanitize($input)
     {
+        if (isset($input['webhook_method']) && !in_array($input['webhook_method'], ['get', 'post'])) {
+            $input['webhook_method'] = 'post';
+        }
+
         return $input;
     }
 }
