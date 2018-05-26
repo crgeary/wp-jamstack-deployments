@@ -21,7 +21,10 @@ if (!function_exists('crgeary_jamstack_deployments_fire_webhook')) {
             return;
         }
 
-        // make the request.
+        if (isset($option['webhook_method']) && mb_strtolower($option['webhook_method']) === 'get') {
+            return wp_safe_remote_get($option['webhook_url']);
+        }
+        
         return wp_safe_remote_post($option['webhook_url']);
     }
 }
