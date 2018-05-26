@@ -18,5 +18,8 @@ class WebhookTrigger
         check_admin_referer('crgeary_jamstack_deployment_trigger', 'crgeary_jamstack_deployment_trigger');
 
         crgeary_jamstack_deployments_fire_webhook();
+
+        wp_redirect(admin_url('admin.php?page=wp-jamstack-deployments'));
+        exit;
     }
 }
