@@ -3,6 +3,8 @@
 namespace Crgeary\JAMstackDeployments;
 
 use Crgeary\JAMstackDeployments\UI\SettingsScreen;
+use Crgeary\JAMstackDeployments\UI\ManagementScreen;
+use Crgeary\JAMstackDeployments\WebhookTrigger;
 use Crgeary\JAMstackDeployments\Settings;
 
 class App
@@ -58,7 +60,12 @@ class App
     protected function includes()
     {
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/UI/SettingsScreen.php');
+        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/UI/ManagementScreen.php');
+
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/Settings.php');
+        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/WebhookTrigger.php');
+
+        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/functions.php');
     }
 
     /**
@@ -72,7 +79,9 @@ class App
         register_deactivation_hook(CRGEARY_JAMSTACK_DEPLOYMENTS_FILE, [$this, 'deactivation']);
 
         SettingsScreen::init();
+        ManagementScreen::init();
         Settings::init();
+        WebhookTrigger::init();
     }
 
     /**

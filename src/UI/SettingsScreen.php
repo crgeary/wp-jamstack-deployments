@@ -22,7 +22,7 @@ class SettingsScreen
     public static function addMenu()
     {
         add_options_page(
-            'JAMstack Deployments',
+            'JAMstack Deployments (Settings)',
             'Deployments',
             'manage_options',
             'wp-jamstack-deployments-settings',
@@ -49,7 +49,17 @@ class SettingsScreen
 
                 submit_button('Save Settings', 'primary', 'submit', false);
 
+                $uri = wp_nonce_url(
+                    admin_url('admin.php?page=wp-jamstack-deployments&action=jamstack-deployment-trigger'),
+                    'crgeary_jamstack_deployment_trigger',
+                    'crgeary_jamstack_deployment_trigger'
+                );
+
                 ?>
+
+                <p>You must save your settings before testing.</p>
+                <a href="<?= esc_url($uri); ?>" class="button">Test Webhook</a>
+
             </form>
 
         </div><?php
