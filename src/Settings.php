@@ -4,11 +4,21 @@ namespace Crgeary\JAMstackDeployments;
 
 class Settings
 {
+    /**
+     * Setup required hooks for the Settings
+     *
+     * @return void
+     */
     public static function init()
     {
         add_action('admin_init', [__CLASS__, 'register']);
     }
 
+    /**
+     * Register settings & fields
+     *
+     * @return void
+     */
     public static function register()
     {
         $key = CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY;
@@ -38,6 +48,12 @@ class Settings
         ]);
     }
 
+    /**
+     * Sanitize user input
+     *
+     * @var array $input
+     * @return array
+     */
     public static function sanitize($input)
     {
         return $input;

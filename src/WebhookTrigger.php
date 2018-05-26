@@ -4,11 +4,21 @@ namespace Crgeary\JAMstackDeployments;
 
 class WebhookTrigger
 {
+    /**
+     * Setup hooks for triggering the webhook
+     *
+     * @return void
+     */
     public static function init()
     {
         add_action('admin_init', [__CLASS__, 'trigger']);
     }
 
+    /**
+     * Trigger a request manually from the admin settings
+     *
+     * @return void
+     */
     public static function trigger()
     {
         if (!isset($_GET['action']) || 'jamstack-deployment-trigger' !== $_GET['action']) {

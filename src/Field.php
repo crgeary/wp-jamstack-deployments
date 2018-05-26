@@ -4,6 +4,12 @@ namespace Crgeary\JAMstackDeployments;
 
 class Field
 {
+    /**
+     * Render an input[type=url] field
+     *
+     * @param array $args
+     * @return void
+     */
     public static function url($args = [])
     {
         ?><div>
@@ -12,6 +18,12 @@ class Field
         </div><?php
     }
 
+    /**
+     * Render a select field
+     *
+     * @param array $args
+     * @return void
+     */
     public static function select($args = [])
     {
         ?><div>
