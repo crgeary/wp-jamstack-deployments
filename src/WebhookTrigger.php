@@ -12,6 +12,62 @@ class WebhookTrigger
     public static function init()
     {
         add_action('admin_init', [__CLASS__, 'trigger']);
+        add_action('admin_bar_menu', [__CLASS__, 'adminBarTriggerButton']);
+
+        add_action('admin_footer', [__CLASS__, 'adminBarCss']);
+        add_action('wp_footer', [__CLASS__, 'adminBarCss']);
+        
+    }
+
+    /**
+     * Show the admin bar css
+     * 
+     * @todo move this somewhere else
+     * @return void
+     */
+    public static function adminBarCss()
+    {
+        if (!is_admin_bar_showing()) {
+            return;
+        }
+
+        ?><style>
+
+        #wpadminbar .wp-jamstack-deployments-button > a {
+            background-color: rgba(255, 255, 255, .25);
+            color: #FFFFFF !important;
+        }
+        #wpadminbar .wp-jamstack-deployments-button > a:hover,
+        #wpadminbar .wp-jamstack-deployments-button > a:focus {
+            background-color: rgba(255, 255, 255, .25) !important;
+        }
+
+        </style><?php
+    }
+
+    /**
+     * Add a "trigger webhook" button to the admin bar
+     *
+     * @param object $bar
+     * @return void
+     */
+    public static function adminBarTriggerButton($bar)
+    {
+        $uri = wp_nonce_url(
+            admin_url('admin.php?page=wp-jamstack-deployments&action=jamstack-deployment-trigger'),
+            'crgeary_jamstack_deployment_trigger',
+            'crgeary_jamstack_deployment_trigger'
+        );
+
+        $bar->add_node([
+            'id' => 'wp-jamstack-deployments',
+            'title' => 'Deploy Website',
+            'parent' => 'top-secondary',
+            'href' => $uri,
+            'meta' => [
+                'class' => 'wp-jamstack-deployments-button'
+            ]
+        ]);
     }
 
     /**

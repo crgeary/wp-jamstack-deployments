@@ -40,6 +40,8 @@ class SettingsScreen
         ?><div class="wrap">
 
             <h2><?= get_admin_page_title(); ?></h2>
+
+            <p>View your <a href="<?= esc_url(admin_url('/tools.php?page=wp-jamstack-deployments')); ?>">deployment logs here</a></p>
             
             <form method="post" action="<?= esc_url(admin_url('options.php')); ?>">
                 <?php
