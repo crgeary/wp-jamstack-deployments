@@ -2,6 +2,8 @@
 
 namespace Crgeary\JAMstackDeployments;
 
+use Crgeary\JAMstackDeployments\UI\SettingsScreen;
+
 class App
 {
     /**
@@ -44,7 +46,7 @@ class App
      */
     protected function constants()
     {
-        // ...
+        define('CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY', 'wp_jamstack_deployments');
     }
 
     /**
@@ -54,7 +56,7 @@ class App
      */
     protected function includes()
     {
-        // ...
+        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/UI/SettingsScreen.php');
     }
 
     /**
@@ -66,6 +68,8 @@ class App
     {
         register_activation_hook(CRGEARY_JAMSTACK_DEPLOYMENTS_FILE, [$this, 'activation']);
         register_deactivation_hook(CRGEARY_JAMSTACK_DEPLOYMENTS_FILE, [$this, 'deactivation']);
+
+        SettingsScreen::init();
     }
 
     /**
