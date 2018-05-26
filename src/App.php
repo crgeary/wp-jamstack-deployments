@@ -75,6 +75,7 @@ class App
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/Settings.php');
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/WebhookTrigger.php');
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/Logger.php');
+        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/Field.php');
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/View.php');
 
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/functions.php');
