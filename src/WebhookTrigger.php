@@ -14,9 +14,34 @@ class WebhookTrigger
         add_action('admin_init', [__CLASS__, 'trigger']);
         add_action('admin_bar_menu', [__CLASS__, 'adminBarTriggerButton']);
 
+        add_action('save_post', [__CLASS__, 'triggerSavePost'], 10, 3);
+
         add_action('admin_footer', [__CLASS__, 'adminBarCss']);
         add_action('wp_footer', [__CLASS__, 'adminBarCss']);
         
+    }
+
+    /**
+     * When a post is saved or updated, fire this
+     *
+     * @param int $id
+     * @param object $post
+     * @param bool $update
+     * @return void
+     */
+    public static function triggerSavePost($id, $post, $update)
+    {
+        if (wp_is_post_revision($id)) {
+            return;
+        }
+
+        $statuses = apply_filters('jamstack_deployments_post_statuses', ['publish', 'private', 'trash'], $id, $post);
+
+        if (!in_array(get_post_status($id), $statuses, true)) {
+            return;
+        }
+
+        self::fireWebhook();
     }
 
     /**
