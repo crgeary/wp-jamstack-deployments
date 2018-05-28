@@ -2,17 +2,23 @@
 
 A WordPress plugin for JAMstack deployments on Netlify (and other platforms).
 
+## Preface
+
+This plugin provides a way to fire off a request to a webhook when a post, page or custom post type is created/udpated/deleted. You're also able to fire off a request manually at the click of a button.
+
 ## Custom Actions
 
-If you want fire the webhook at a custom action, then you can do so by attaching the `jamstack_deployments_fire_webhook` function to a WordPress action.
+The `jamstack_deployments_fire_webhook` action can be used to fire the webhook at a custom point that you specify. For example, if you want to fire the webhook when a user registers, then you can use:
 
-For example, if you want to fire the webhook when a user registers, then you can use:
-
-```
+```php
 add_action('user_register', 'jamstack_deployments_fire_webhook');
 ```
 
-This will trigger a new deployment anytime a new user signs up to your site.
+Or when a category/term is created:
+
+```php
+add_action('created_term', 'jamstack_deployments_fire_webhook', 10, 3);
+```
 
 ## Running Code Before & After Webhooks
 
