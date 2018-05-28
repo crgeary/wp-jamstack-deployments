@@ -109,12 +109,16 @@ class WebhookTrigger
             return;
         }
 
+        $args = [
+            'blocking' => false
+        ];
+
         if (isset($option['webhook_method']) && mb_strtolower($option['webhook_method']) === 'get') {
             App::instance()->logger->info('A GET request was made to the webhook.');
-            return wp_safe_remote_get($option['webhook_url']);
+            return wp_safe_remote_get($option['webhook_url'], $args);
         }
         
         App::instance()->logger->info('A POST request was made to the webhook.');
-        return wp_safe_remote_post($option['webhook_url']);
+        return wp_safe_remote_post($option['webhook_url'], $args);
     }
 }
