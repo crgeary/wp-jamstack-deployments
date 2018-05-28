@@ -113,12 +113,20 @@ class WebhookTrigger
             'blocking' => false
         ];
 
-        if (isset($option['webhook_method']) && mb_strtolower($option['webhook_method']) === 'get') {
-            App::instance()->logger->info('A GET request was made to the webhook.');
-            return wp_safe_remote_get($option['webhook_url'], $args);
+        $method = mb_strtolower($option['webhook_method']);
+
+        do_action('jamstack_deployments_before_fire_webhook');
+
+        App::instance()->logger->info("A {$method} request was made to the webhook.");
+
+        if (isset($option['webhook_method']) && $method === 'get') {
+            $return = wp_safe_remote_get($option['webhook_url'], $args);
+        } else {
+            $return = wp_safe_remote_post($option['webhook_url'], $args);
         }
-        
-        App::instance()->logger->info('A POST request was made to the webhook.');
-        return wp_safe_remote_post($option['webhook_url'], $args);
+
+        do_action('jamstack_deployments_after_fire_webhook');
+
+        return $return;
     }
 }
