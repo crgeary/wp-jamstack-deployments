@@ -31,7 +31,7 @@ class WebhookTrigger
      */
     public static function triggerSavePost($id, $post, $update)
     {
-        if (wp_is_post_revision($id)) {
+        if (wp_is_post_revision($id) || wp_is_post_autosave($id)) {
             return;
         }
 
