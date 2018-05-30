@@ -42,6 +42,21 @@ class WebhookTrigger
         self::fireWebhook();
     }
 
+    public static function triggerSaveTerm($id, $tax_id, $tax_slug)
+    {
+        self::fireWebhook();
+    }
+
+    public static function triggerDeleteTerm($id, $tax_id, $tax_slug, $term, $object_ids)
+    {
+        self::fireWebhook();
+    }
+
+    public static function triggerEditTerm($id, $tax_id, $tax_slug)
+    {
+        self::fireWebhook();
+    }
+
     /**
      * Show the admin bar css
      * 
