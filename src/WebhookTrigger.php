@@ -14,8 +14,6 @@ class WebhookTrigger
         add_action('admin_init', [__CLASS__, 'trigger']);
         add_action('admin_bar_menu', [__CLASS__, 'adminBarTriggerButton']);
 
-        add_action('save_post', [__CLASS__, 'triggerSavePost'], 10, 3);
-
         add_action('admin_footer', [__CLASS__, 'adminBarCss']);
         add_action('wp_footer', [__CLASS__, 'adminBarCss']);
         
