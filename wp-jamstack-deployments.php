@@ -5,7 +5,7 @@
  * Description: A WordPress plugin for JAMstack deployments on Netlify (and other platforms).
  * Author: Christopher Geary
  * Author URI: https://creary.com
- * Version: 0.0.1
+ * Version: 0.1.0
  */
 
 if (!defined('ABSPATH')) {

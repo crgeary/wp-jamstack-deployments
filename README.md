@@ -1,4 +1,4 @@
-# JAMstack Deployments
+# JAMstack Deployments [BETA]
 
 A WordPress plugin for JAMstack deployments on Netlify (and other platforms).
 
