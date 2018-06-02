@@ -70,5 +70,4 @@ You can run code before or after you fire the webhook using the following action
 * After: `jamstack_deployments_after_fire_webhook`
 
 ## License
-
-This plugin is licensed under GPL-3.0
+[GPL-3.0](LICENSE.md}
