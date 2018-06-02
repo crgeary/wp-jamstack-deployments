@@ -64,7 +64,7 @@ add_action('user_register', 'jamstack_deployments_fire_webhook');
 
 ## Running Code Before & After Webhooks
 
-You can run code before or after you fire the webhook using the following actions:
+You can run code directly before or after you fire the webhook using the following actions:
 
 * Before: `jamstack_deployments_before_fire_webhook`
 * After: `jamstack_deployments_after_fire_webhook`

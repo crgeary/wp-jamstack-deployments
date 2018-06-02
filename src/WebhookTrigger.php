@@ -166,12 +166,10 @@ class WebhookTrigger
         $webhook = !empty($option['webhook_url']) ? $option['webhook_url'] : null;
 
         if (!$webhook) {
-            App::instance()->logger->error('The webhook hasn\'t been set.');
             return;
         }
 
         if (false === filter_var($webhook, FILTER_VALIDATE_URL)) {
-            App::instance()->logger->error('The webhook isn\'t a valid url.');
             return;
         }
 
@@ -182,8 +180,6 @@ class WebhookTrigger
         $method = mb_strtolower($option['webhook_method']);
 
         do_action('jamstack_deployments_before_fire_webhook');
-
-        App::instance()->logger->info("A {$method} request was made to the webhook.");
 
         if (isset($option['webhook_method']) && $method === 'get') {
             $return = wp_safe_remote_get($option['webhook_url'], $args);
