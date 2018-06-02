@@ -46,6 +46,24 @@ class Settings
             'default' => 'post',
             'description' => 'Set either GET or POST for the webhook request. Defaults to POST.'
         ]);
+
+        add_settings_field('webhook_post_types', 'Post Types', ['Crgeary\JAMstackDeployments\Field', 'checkboxes'], $key, 'general', [
+            'name' => "{$key}[webhook_post_types]",
+            'value' => isset($option['webhook_post_types']) ? $option['webhook_post_types'] : [],
+            'choices' => self::getPostTypes(),
+            'description' => 'Only selected post types will trigger a deployment when created, updated or deleted.'
+        ]);
+    }
+
+    protected static function getPostTypes()
+    {
+        $return = [];
+
+        foreach (get_post_types(null, 'objects') as $choice) {
+            $return[$choice->name] = $choice->labels->name;
+        }
+
+        return $return;
     }
 
     /**
@@ -58,6 +76,10 @@ class Settings
     {
         if (isset($input['webhook_method']) && !in_array($input['webhook_method'], ['get', 'post'])) {
             $input['webhook_method'] = 'post';
+        }
+
+        if (!isset($input['webhook_post_types']) || !is_array($input['webhook_post_types'])) {
+            $input['webhook_post_types'] = [];
         }
 
         return $input;

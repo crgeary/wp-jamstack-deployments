@@ -39,6 +39,13 @@ class WebhookTrigger
             return;
         }
 
+        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        $post_types = apply_filters('jamstack_deployments_post_types', $option['webhook_post_types'] ?: [], $id, $post);
+
+        if (!in_array(get_post_type($id), $post_types)) {
+            return;
+        }
+
         self::fireWebhook();
     }
 
