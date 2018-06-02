@@ -42,7 +42,7 @@ class WebhookTrigger
         $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
         $post_types = apply_filters('jamstack_deployments_post_types', $option['webhook_post_types'] ?: [], $id, $post);
 
-        if (!in_array(get_post_type($id), $post_types)) {
+        if (!in_array(get_post_type($id), $post_types, true)) {
             return;
         }
 
@@ -51,16 +51,37 @@ class WebhookTrigger
 
     public static function triggerSaveTerm($id, $tax_id, $tax_slug)
     {
+        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
+
+        if (!in_array($tax_slug, $taxonomies, true)) {
+            return;
+        }
+
         self::fireWebhook();
     }
 
     public static function triggerDeleteTerm($id, $tax_id, $tax_slug, $term, $object_ids)
     {
+        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
+
+        if (!in_array($tax_slug, $taxonomies, true)) {
+            return;
+        }
+
         self::fireWebhook();
     }
 
     public static function triggerEditTerm($id, $tax_id, $tax_slug)
     {
+        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
+
+        if (!in_array($tax_slug, $taxonomies, true)) {
+            return;
+        }
+        
         self::fireWebhook();
     }
 

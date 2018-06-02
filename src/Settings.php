@@ -53,6 +53,13 @@ class Settings
             'choices' => self::getPostTypes(),
             'description' => 'Only selected post types will trigger a deployment when created, updated or deleted.'
         ]);
+
+        add_settings_field('webhook_taxonomies', 'Taxonomies', ['Crgeary\JAMstackDeployments\Field', 'checkboxes'], $key, 'general', [
+            'name' => "{$key}[webhook_taxonomies]",
+            'value' => isset($option['webhook_taxonomies']) ? $option['webhook_taxonomies'] : [],
+            'choices' => self::getTaxonomies(),
+            'description' => 'Only selected taxonomies will trigger a deployment when their terms are created, updated or deleted.'
+        ]);
     }
 
     protected static function getPostTypes()
@@ -60,6 +67,17 @@ class Settings
         $return = [];
 
         foreach (get_post_types(null, 'objects') as $choice) {
+            $return[$choice->name] = $choice->labels->name;
+        }
+
+        return $return;
+    }
+
+    protected static function getTaxonomies()
+    {
+        $return = [];
+
+        foreach (get_taxonomies(null, 'objects') as $choice) {
             $return[$choice->name] = $choice->labels->name;
         }
 
@@ -80,6 +98,10 @@ class Settings
 
         if (!isset($input['webhook_post_types']) || !is_array($input['webhook_post_types'])) {
             $input['webhook_post_types'] = [];
+        }
+
+        if (!isset($input['webhook_taxonomies']) || !is_array($input['webhook_taxonomies'])) {
+            $input['webhook_taxonomies'] = [];
         }
 
         return $input;
