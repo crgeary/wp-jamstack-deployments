@@ -28,17 +28,17 @@ class Settings
         
         // ...
 
-        $option = get_option($key);
+        $option = jamstack_deployments_get_options();
 
         add_settings_field('webhook_url', 'Webhook URL', ['Crgeary\JAMstackDeployments\Field', 'url'], $key, 'general', [
             'name' => "{$key}[webhook_url]",
-            'value' => isset($option['webhook_url']) ? $option['webhook_url'] : '',
+            'value' => jamstack_deployments_get_webhook_url(),
             'description' => 'Your Webhook URL. See <a href="https://www.netlify.com/docs/webhooks/" target="_blank" rel="noopener noreferrer">Netlify docs</a>.'
         ]);
 
         add_settings_field('webhook_method', 'Webhook Method', ['Crgeary\JAMstackDeployments\Field', 'select'], $key, 'general', [
             'name' => "{$key}[webhook_method]",
-            'value' => isset($option['webhook_method']) && in_array($option['webhook_method'], ['get', 'post']) ? $option['webhook_method'] : 'post',
+            'value' => jamstack_deployments_get_webhook_method(),
             'choices' => [
                 'post' => 'POST',
                 'get' => 'GET'

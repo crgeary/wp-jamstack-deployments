@@ -39,7 +39,7 @@ class WebhookTrigger
             return;
         }
 
-        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        $option = jamstack_deployments_get_options();
         $post_types = apply_filters('jamstack_deployments_post_types', $option['webhook_post_types'] ?: [], $id, $post);
 
         if (!in_array(get_post_type($id), $post_types, true)) {
@@ -112,7 +112,7 @@ class WebhookTrigger
      */
     protected static function canFireForTaxonomy($id, $tax_id, $tax_slug)
     {
-        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        $option = jamstack_deployments_get_options();
         $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
 
         return in_array($tax_slug, $taxonomies, true);
@@ -195,8 +195,7 @@ class WebhookTrigger
      */
     public static function fireWebhook()
     {
-        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
-        $webhook = !empty($option['webhook_url']) ? $option['webhook_url'] : null;
+        $webhook = jamstack_deployments_get_webhook_url();
 
         if (!$webhook) {
             return;
@@ -210,11 +209,11 @@ class WebhookTrigger
             'blocking' => false
         ];
 
-        $method = mb_strtolower($option['webhook_method']);
+        $method = jamstack_deployments_get_webhook_method();
 
         do_action('jamstack_deployments_before_fire_webhook');
 
-        if (isset($option['webhook_method']) && $method === 'get') {
+        if ($method === 'get') {
             $return = wp_safe_remote_get($option['webhook_url'], $args);
         } else {
             $return = wp_safe_remote_post($option['webhook_url'], $args);

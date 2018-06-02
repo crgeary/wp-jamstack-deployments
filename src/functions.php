@@ -1,5 +1,41 @@
 <?php
 
+if (!function_exists('jamstack_deployments_get_options')) {
+    /**
+     * Return the plugin settings/options
+     *
+     * @return array
+     */
+    function jamstack_deployments_get_options() {
+        return get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+    }
+}
+
+if (!function_exists('jamstack_deployments_get_webhook_url')) {
+    /**
+     * Return the webhook url
+     *
+     * @return string|null
+     */
+    function jamstack_deployments_get_webhook_url() {
+        $options = jamstack_deployments_get_options();
+        return isset($options['webhook_url']) ? $options['webhook_url'] : null;
+    }
+}
+
+if (!function_exists('jamstack_deployments_get_webhook_method')) {
+    /**
+     * Return the webhook method (get/post)
+     *
+     * @return string
+     */
+    function jamstack_deployments_get_webhook_method() {
+        $options = jamstack_deployments_get_options();
+        $method = isset($options['webhook_method']) ? $options['webhook_method'] : 'post';
+        return mb_strtolower($method);
+    }
+}
+
 if (!function_exists('jamstack_deployments_fire_webhook')) {
     /**
      * Fire a request to the webhook.
