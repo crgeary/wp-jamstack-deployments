@@ -49,40 +49,73 @@ class WebhookTrigger
         self::fireWebhook();
     }
 
+    /**
+     * Fire a request to the webhook when a term has been created.
+     *
+     * @param int $id
+     * @param int $post
+     * @param string $tax_slug
+     * @return void
+     */
     public static function triggerSaveTerm($id, $tax_id, $tax_slug)
     {
-        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
-        $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
-
-        if (!in_array($tax_slug, $taxonomies, true)) {
+        if (!self::canFireForTaxonomy($id, $tax_id, $tax_slug)) {
             return;
         }
 
         self::fireWebhook();
     }
 
+    /**
+     * Fire a request to the webhook when a term has been removed.
+     *
+     * @param int $id
+     * @param int $post
+     * @param string $tax_slug
+     * @param object $term
+     * @param array $object_ids
+     * @return void
+     */
     public static function triggerDeleteTerm($id, $tax_id, $tax_slug, $term, $object_ids)
     {
-        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
-        $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
-
-        if (!in_array($tax_slug, $taxonomies, true)) {
+        if (!self::canFireForTaxonomy($id, $tax_id, $tax_slug)) {
             return;
         }
 
         self::fireWebhook();
     }
 
+    /**
+     * Fire a request to the webhook when a term has been modified.
+     *
+     * @param int $id
+     * @param int $post
+     * @param string $tax_slug
+     * @return void
+     */
     public static function triggerEditTerm($id, $tax_id, $tax_slug)
     {
-        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
-        $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
-
-        if (!in_array($tax_slug, $taxonomies, true)) {
+        if (!self::canFireForTaxonomy($id, $tax_id, $tax_slug)) {
             return;
         }
         
         self::fireWebhook();
+    }
+
+    /**
+     * Check if the given taxonomy is one that should fire the webhook
+     *
+     * @param int $id
+     * @param int $tax_id
+     * @param string $tax_slug
+     * @return boolean
+     */
+    protected static function canFireForTaxonomy($id, $tax_id, $tax_slug)
+    {
+        $option = get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        $taxonomies = apply_filters('jamstack_deployments_taxonomies', $option['webhook_taxonomies'] ?: [], $id, $tax_id);
+
+        return in_array($tax_slug, $taxonomies, true);
     }
 
     /**

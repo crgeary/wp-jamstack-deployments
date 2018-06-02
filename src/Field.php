@@ -37,7 +37,7 @@ class Field
     }
 
     /**
-     * Render a select field
+     * Render a set of checkboxes
      *
      * @param array $args
      * @return void
@@ -47,6 +47,7 @@ class Field
         $args['value'] = is_array($args['value']) ? $args['value'] : [$args['value']];
 
         ?><fieldset>
+            <legend class="screen-reader-text"><?= $args['label']; ?></legend>
             <?php foreach ($args['choices'] as $k => $v) : ?>
                 <label>
                     <input type="checkbox"
