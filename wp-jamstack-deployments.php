@@ -4,7 +4,7 @@
  * Plugin Name: JAMstack Deployments
  * Description: A WordPress plugin for JAMstack deployments on Netlify (and other platforms).
  * Author: Christopher Geary
- * Author URI: https://creary.com
+ * Author URI: https://crgeary.com
  * Version: 0.1.1
  */
 
