@@ -3,7 +3,6 @@
 namespace Crgeary\JAMstackDeployments;
 
 use Crgeary\JAMstackDeployments\UI\SettingsScreen;
-use Crgeary\JAMstackDeployments\UI\ManagementScreen;
 use Crgeary\JAMstackDeployments\WebhookTrigger;
 use Crgeary\JAMstackDeployments\Settings;
 
@@ -15,13 +14,6 @@ class App
      * @var null|App
      */
     protected static $instance = null;
-
-    /**
-     * Instance of our logging class
-     *
-     * @var Logger
-     */
-    public $logger;
 
     /**
      * Create a new singleton instance
@@ -47,8 +39,6 @@ class App
         $this->constants();
         $this->includes();
         $this->hooks();
-
-        $this->logger = new Logger(CRGEARY_JAMSTACK_DEPLOYMENTS_DEBUG_FILE, 250);
     }
 
     /**
@@ -59,7 +49,6 @@ class App
     protected function constants()
     {
         define('CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY', 'wp_jamstack_deployments');
-        define('CRGEARY_JAMSTACK_DEPLOYMENTS_DEBUG_FILE', CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/.debug');
     }
 
     /**
@@ -70,13 +59,10 @@ class App
     protected function includes()
     {
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/UI/SettingsScreen.php');
-        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/UI/ManagementScreen.php');
 
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/Settings.php');
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/WebhookTrigger.php');
-        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/Logger.php');
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/Field.php');
-        require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/View.php');
 
         require_once (CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/src/functions.php');
     }
@@ -92,7 +78,6 @@ class App
         register_deactivation_hook(CRGEARY_JAMSTACK_DEPLOYMENTS_FILE, [$this, 'deactivation']);
 
         SettingsScreen::init();
-        ManagementScreen::init();
         Settings::init();
         WebhookTrigger::init();
     }
@@ -104,7 +89,7 @@ class App
      */
     public function activation()
     {
-        $this->logger->debug('Plugin activated.');
+        
     }
 
     /**
@@ -114,6 +99,6 @@ class App
      */
     public function deactivation()
     {
-        $this->logger->debug('Plugin deactivated.');
+
     }
 }
