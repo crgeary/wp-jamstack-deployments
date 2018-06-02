@@ -153,7 +153,7 @@ class WebhookTrigger
     public static function adminBarTriggerButton($bar)
     {
         $uri = wp_nonce_url(
-            admin_url('admin.php?page=wp-jamstack-deployments&action=jamstack-deployment-trigger'),
+            admin_url('admin.php?page=wp-jamstack-deployments-settings&action=jamstack-deployment-trigger'),
             'crgeary_jamstack_deployment_trigger',
             'crgeary_jamstack_deployment_trigger'
         );
@@ -184,7 +184,7 @@ class WebhookTrigger
 
         self::fireWebhook();
 
-        wp_redirect(admin_url('admin.php?page=wp-jamstack-deployments'));
+        wp_redirect(admin_url('admin.php?page=wp-jamstack-deployments-settings'));
         exit;
     }
 
@@ -214,9 +214,9 @@ class WebhookTrigger
         do_action('jamstack_deployments_before_fire_webhook');
 
         if ($method === 'get') {
-            $return = wp_safe_remote_get($option['webhook_url'], $args);
+            $return = wp_safe_remote_get($webhook, $args);
         } else {
-            $return = wp_safe_remote_post($option['webhook_url'], $args);
+            $return = wp_safe_remote_post($webhook, $args);
         }
 
         do_action('jamstack_deployments_after_fire_webhook');

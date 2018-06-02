@@ -50,7 +50,7 @@ class SettingsScreen
                 submit_button('Save Settings', 'primary', 'submit', false);
 
                 $uri = wp_nonce_url(
-                    admin_url('admin.php?page=wp-jamstack-deployments&action=jamstack-deployment-trigger'),
+                    admin_url('admin.php?page=wp-jamstack-deployments-settings&action=jamstack-deployment-trigger'),
                     'crgeary_jamstack_deployment_trigger',
                     'crgeary_jamstack_deployment_trigger'
                 );
