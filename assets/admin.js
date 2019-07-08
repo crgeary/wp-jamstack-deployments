@@ -11,10 +11,10 @@
             }
             var d = new Date();
             image.prop('src', imageSrc + '?v=s_' + d.getTime());
-            refreshTimout = setTimeout(updateNetlifyBadgeUrl, 5000);
+            refreshTimout = setTimeout(updateNetlifyBadgeUrl, 15000);
         };
 
-        refreshTimout = setTimeout(updateNetlifyBadgeUrl, 5000);
+        refreshTimout = setTimeout(updateNetlifyBadgeUrl, 15000);
         
         $('.wp-jamstack-deployments-button').click(function (e) {
             e.preventDefault();
