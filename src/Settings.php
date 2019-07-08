@@ -47,6 +47,12 @@ class Settings
             'description' => 'Set either GET or POST for the webhook request. Defaults to POST.'
         ]);
 
+        add_settings_field('netlify_badge_url', 'Netlify Badge URL', ['Crgeary\JAMstackDeployments\Field', 'url'], $key, 'general', [
+            'name' => "{$key}[netlify_badge_url]",
+            'value' => isset($option['netlify_badge_url']) ? $option['netlify_badge_url'] : '',
+            'description' => 'Your Badge URL. See <a href="https://www.netlify.com/docs/continuous-deployment/" target="_blank" rel="noopener noreferrer">Netlify docs</a>.'
+        ]);
+
         add_settings_field('webhook_post_types', 'Post Types', ['Crgeary\JAMstackDeployments\Field', 'checkboxes'], $key, 'general', [
             'name' => "{$key}[webhook_post_types]",
             'value' => isset($option['webhook_post_types']) ? $option['webhook_post_types'] : [],
