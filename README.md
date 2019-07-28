@@ -84,5 +84,9 @@ You can run code directly before or after you fire the webhook using the followi
 * Before: `jamstack_deployments_before_fire_webhook`
 * After: `jamstack_deployments_after_fire_webhook`
 
+## Changing Webhook Request Arguments
+
+You can modify the arguments sent to the `wp_remote_safe_*` functions using the `jamstack_deployments_webhook_request_args` filter.
+
 ## License
 [GPL-3.0](LICENSE.md)

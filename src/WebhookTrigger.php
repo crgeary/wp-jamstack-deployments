@@ -245,9 +245,9 @@ class WebhookTrigger
             return;
         }
 
-        $args = [
+        $args = apply_filters('jamstack_deployments_webhook_request_args', [
             'blocking' => false
-        ];
+        ]);
 
         $method = jamstack_deployments_get_webhook_method();
 
