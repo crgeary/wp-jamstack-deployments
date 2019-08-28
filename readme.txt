@@ -10,3 +10,6 @@ A WordPress plugin for JAMstack deployments on Netlify (and other platforms).
 
 == Description ==
 Please refer to the Github repository [crgeary/wp-jamstack-deployments](https://github.com/crgeary/wp-jamstack-deployments) for usage instructions, and for support.
+
+== Screenshots ==
+1. Admin settings on the Settings -> Deployments screen
