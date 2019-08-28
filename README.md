@@ -6,6 +6,10 @@ A WordPress plugin for JAMstack deployments on Netlify (and other platforms).
 
 This plugin provides a way to fire off a request to a webhook when a post, page or custom post type has been created, udpated or deleted. You're also able to fire off a request manually at the click of a button, or programmatically via a WordPress action.
 
+## Screenshots
+
+![Settings Screen](.wordpress-org/screenshot-1.png)
+
 ## Installing the Plugin
 
 Clone the contents of this repository to your WordPress plugins folder and activate the plugin via the installed plugins page.
