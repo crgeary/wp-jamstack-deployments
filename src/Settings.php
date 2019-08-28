@@ -110,6 +110,10 @@ class Settings
      */
     public static function sanitize($input)
     {
+        if (!empty($input['webhook_url'])) {
+            $input['webhook_url'] = sanitize_text_field($input['webhook_url']);
+        }
+
         if (isset($input['webhook_method']) && !in_array($input['webhook_method'], ['get', 'post'])) {
             $input['webhook_method'] = 'post';
         }
