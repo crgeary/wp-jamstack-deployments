@@ -57,8 +57,8 @@ class SettingsScreen
 
                 ?>
 
-                <p>You must save your settings before testing.</p>
-                <a href="<?= esc_url($uri); ?>" class="button">Test Webhook</a>
+                <p>You must save your settings before testing a deployment.</p>
+                <a href="<?= esc_url($uri); ?>" class="button">Test Deployment</a>
 
             </form>
 
