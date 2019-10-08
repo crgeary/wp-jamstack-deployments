@@ -11,6 +11,7 @@ class WebhookTrigger
      */
     public static function init()
     {
+        add_action('admin_init', [__CLASS__, 'trigger']);
         add_action('admin_bar_menu', [__CLASS__, 'adminBarTriggerButton']);
 
         add_action('admin_footer', [__CLASS__, 'adminBarCssAndJs']);
@@ -19,7 +20,7 @@ class WebhookTrigger
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueueScripts']);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueueScripts']);
 
-        add_action('wp_ajax_wp_jamstack_deployments_manual_trigger', [__CLASS__, 'trigger']);
+        add_action('wp_ajax_wp_jamstack_deployments_manual_trigger', [__CLASS__, 'ajaxTrigger']);
     }
 
     /**
@@ -219,6 +220,25 @@ class WebhookTrigger
      * @return void
      */
     public static function trigger()
+    {
+        if (!isset($_GET['action']) || 'jamstack-deployment-trigger' !== $_GET['action']) {
+            return;
+        }
+        
+        check_admin_referer('crgeary_jamstack_deployment_trigger', 'crgeary_jamstack_deployment_trigger');
+
+        self::fireWebhook();
+
+        wp_redirect(admin_url('admin.php?page=wp-jamstack-deployments-settings'));
+        exit;
+    }
+
+    /**
+     * Trigger a request manually from the admin settings
+     *
+     * @return void
+     */
+    public static function ajaxTrigger()
     {
         check_ajax_referer('wp-jamstack-deployments-button-nonce', 'security');
 
