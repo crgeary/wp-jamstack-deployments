@@ -190,11 +190,18 @@ class WebhookTrigger
     public static function adminBarTriggerButton($bar)
     {
         $option = jamstack_deployments_get_options();
+        $image = '';
 
-        if (!empty($option['netlify_badge_url'])) {
+        if (!empty($option['deployment_badge_url'])) {
+            $image = $option['deployment_badge_url'];
+        } else if (!empty($option['netlify_badge_url'])) {
+            $image = $option['netlify_badge_url'];
+        }
+
+        if (!empty($image)) {
             $bar->add_node([
                 'id' => 'wp-jamstack-deployments-netlify-badge',
-                'title' => sprintf('<img src="%s" alt />', $option['netlify_badge_url']),
+                'title' => sprintf('<img src="%s" alt />', $image),
                 'href' => empty($option['deployment_badge_link_url']) ? 'javascript:void(0)' : $option['deployment_badge_link_url'],
                 'parent' => 'top-secondary',
                 'meta' => [
