@@ -24,6 +24,8 @@ From this screen you can configure the following:
 
 - **Webhook URL** - The webhook URL that you have created to trigger a deployment. For more information on webhooks with Netlify [visit the Netlify documentation](https://www.netlify.com/docs/webhooks/).
 - **Webhook Method** - This is the required method for the webhook request. The available options are `GET` or `POST`. By default the plugin will automatically select `POST`.
+- **Badge Image URL** - An optional field to specify the `src` of a badge, for services that support badges.
+- **Badge Link** - An optional field to specify the `href` of a badge, for services that support badges.
 - **Post Types** - A list of selectable post types that will trigger a Netlify deployment when created, updated or deleted. Note that only selected post types will trigger a deployment.
 - **Taxonomies** - A list of selectable taxonomies that will trigger a Netlify deployment when created, updated or deleted. Note that only selected taxonomies will trigger a deployment.
 
