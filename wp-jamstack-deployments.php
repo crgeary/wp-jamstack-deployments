@@ -2,10 +2,11 @@
 
 /**
  * Plugin Name: JAMstack Deployments
+ * Plugin URI: https://github.com/crgeary/wp-jamstack-deployments
  * Description: A WordPress plugin for JAMstack deployments on Netlify (and other platforms).
  * Author: Christopher Geary
  * Author URI: https://crgeary.com
- * Version: 0.3.1
+ * Version: 0.3.2
  */
 
 if (!defined('ABSPATH')) {
