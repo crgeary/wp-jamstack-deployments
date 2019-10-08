@@ -33,7 +33,7 @@ class Settings
         add_settings_field('webhook_url', 'Webhook URL', ['Crgeary\JAMstackDeployments\Field', 'url'], $key, 'general', [
             'name' => "{$key}[webhook_url]",
             'value' => jamstack_deployments_get_webhook_url(),
-            'description' => 'Your Webhook URL. See <a href="https://www.netlify.com/docs/webhooks/" target="_blank" rel="noopener noreferrer">Netlify docs</a>.'
+            'description' => 'Your Webhook URL. See <a href="https://www.netlify.com/docs/webhooks/" target="_blank" rel="noopener noreferrer">Netlify docs</a> or see <a href="https://zeit.co/docs/v2/advanced/deploy-hooks/" target="_blank" rel="noopener noreferrer">Zeit docs</a>.'
         ]);
 
         add_settings_field('webhook_method', 'Webhook Method', ['Crgeary\JAMstackDeployments\Field', 'select'], $key, 'general', [
