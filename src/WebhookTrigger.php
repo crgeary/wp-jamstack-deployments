@@ -195,10 +195,11 @@ class WebhookTrigger
             $bar->add_node([
                 'id' => 'wp-jamstack-deployments-netlify-badge',
                 'title' => sprintf('<img src="%s" alt />', $option['netlify_badge_url']),
-                'href' => 'javascript:void(0)',
+                'href' => empty($option['deployment_badge_link_url']) ? 'javascript:void(0)' : $option['deployment_badge_link_url'],
                 'parent' => 'top-secondary',
                 'meta' => [
-                    'class' => 'wp-jamstack-deployments-badge'
+                    'class' => 'wp-jamstack-deployments-badge',
+                    'target' => empty($option['deployment_badge_link_url']) ? '_self' : '_blank',
                 ]
             ]);
         }
