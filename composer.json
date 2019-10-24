@@ -1,0 +1,13 @@
+{
+  "name": "crgeary/wp-jamstack-deployments",
+  "description": "A WordPress plugin for JAMstack deployments",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0+",
+  "version": "0.3.2",
+  "authors": [
+    {
+      "name": "Christopher Geary",
+      "email": "hello@crgeary.com"
+    }
+  ]
+}
