@@ -33,7 +33,7 @@ class Settings
         add_settings_field('webhook_url', __( 'Build Hook URL', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'url'], $key, 'general', [
             'name' => "{$key}[webhook_url]",
             'value' => jamstack_deployments_get_webhook_url(),
-            'description' => sprintf( __( 'Your Build Hook URL. This is the URL that is pinged to start buidling/deploying the JAMstack site. See <a href="%1s" target="_blank" rel="noopener noreferrer">Netlify docs</a> or see <a href="%2s" target="_blank" rel="noopener noreferrer">Zeit docs</a>.', 'wp-jamstack-deployments' ), 'https://docs.netlify.com/configure-builds/build-hooks/', 'https://zeit.co/docs/v2/advanced/deploy-hooks/' )
+            'description' => sprintf( __( 'Your Build Hook URL. This is the URL that is pinged to start building/deploying the JAMstack site. See <a href="%1s" target="_blank" rel="noopener noreferrer">Netlify docs</a> or see <a href="%2s" target="_blank" rel="noopener noreferrer">Zeit docs</a>.', 'wp-jamstack-deployments' ), 'https://docs.netlify.com/configure-builds/build-hooks/', 'https://zeit.co/docs/v2/advanced/deploy-hooks/' )
         ]); 
 
         add_settings_field('webhook_method', __( 'Hook Method', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'select'], $key, 'general', [
@@ -50,7 +50,7 @@ class Settings
         add_settings_field('deployment_badge_url', __( 'Badge Image URL', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'url'], $key, 'general', [
             'name' => "{$key}[deployment_badge_url]",
             'value' => self::getBadgeImageUrl($option),
-            'description' => sprintf( __( 'Your Badge URL. Input the URL to display a badge with the current site status on your WordPress Back end. See <a href="%1s" target="_blank" rel="noopener noreferrer">Netlify docs</a>.', 'wp-jamstack-deployments' ), 'https://docs.netlify.com/monitor-sites/status-badges/#add-status-badges' )
+            'description' => sprintf( __( 'Your Badge URL. Input the URL to display a badge with the current site status on your WordPress back end. See <a href="%1s" target="_blank" rel="noopener noreferrer">Netlify docs</a>.', 'wp-jamstack-deployments' ), 'https://docs.netlify.com/monitor-sites/status-badges/#add-status-badges' )
         ]);
 
         add_settings_field('deployment_badge_link_url', __( 'Badge Link', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'url'], $key, 'general', [
