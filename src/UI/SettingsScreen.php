@@ -22,8 +22,8 @@ class SettingsScreen
     public static function addMenu()
     {
         add_options_page(
-            'JAMstack Deployments (Settings)',
-            'Deployments',
+            __( 'JAMstack Deployments (Settings)', 'wp-jamstack-deployments' ),
+            __( 'Deployments', 'wp-jamstack-deployments' ),
             'manage_options',
             'wp-jamstack-deployments-settings',
             [__CLASS__, 'renderPage']
@@ -47,7 +47,7 @@ class SettingsScreen
                 settings_fields(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
                 do_settings_sections(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
 
-                submit_button('Save Settings', 'primary', 'submit', false);
+                submit_button( __( 'Save Settings', 'wp-jamstack-deployments' ), 'primary', 'submit', false);
 
                 $uri = wp_nonce_url(
                     admin_url('admin.php?page=wp-jamstack-deployments-settings&action=jamstack-deployment-trigger'),
@@ -57,8 +57,8 @@ class SettingsScreen
 
                 ?>
 
-                <p>You must save your settings before testing a deployment.</p>
-                <a href="<?= esc_url($uri); ?>" class="button">Test Deployment</a>
+                <p><?php _e( 'You must save your settings before testing a deployment.', 'wp-jamstack-deployments')?> </p>
+                <a href="<?= esc_url($uri); ?>" class="button"> <?php _e('Test Deployment', 'wpjamstack-deployments' ) ?> </a>
 
             </form>
 
