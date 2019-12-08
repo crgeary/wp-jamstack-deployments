@@ -21,6 +21,8 @@ class WebhookTrigger
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueueScripts']);
 
         add_action('wp_ajax_wp_jamstack_deployments_manual_trigger', [__CLASS__, 'ajaxTrigger']);
+
+        add_action('transition_post_status', [__CLASS__, 'triggerPostTransition'], 10, 3);
     }
 
     /**
@@ -239,6 +241,39 @@ class WebhookTrigger
 
         wp_redirect(admin_url('admin.php?page=wp-jamstack-deployments-settings'));
         exit;
+    }
+
+    /**
+     * Trigger a webhook when a post transitions to published
+     *
+     * @param string $new
+     * @param string $old
+     * @param WP_Post $post
+     *
+     * @return void
+     */
+    public static function triggerPostTransition($new, $old, $post)
+    {
+        $id = $post->ID;
+        $option = jamstack_deployments_get_options();
+        
+        $post_types = apply_filters('jamstack_deployments_post_types', $option['webhook_post_types'] ?: [], $id, $post);
+
+        if (!in_array(get_post_type($id), $post_types, true)) {
+            return;
+        }
+
+        $statuses = apply_filters('jamstack_deployments_post_statuses', ['publish', 'private', 'trash'], $id, $post);
+
+        if (!in_array(get_post_status($id), $statuses, true)) {
+            return;
+        }
+
+        if ($new !== $old) {
+            return;
+        }
+
+        self::fireWebhook();
     }
 
     /**
