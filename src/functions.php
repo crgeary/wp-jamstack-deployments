@@ -70,7 +70,23 @@ if (!function_exists('jamstack_deployments_fire_webhook_save_post')) {
     function jamstack_deployments_fire_webhook_save_post($id, $post, $update) {
         \Crgeary\JAMstackDeployments\WebhookTrigger::triggerSavePost($id, $post, $update);
     }
-    add_action('save_post', 'jamstack_deployments_fire_webhook_save_post', 10, 3);
+    // duplicates functionality of 'transition_post_status'
+    // add_action('save_post', 'jamstack_deployments_fire_webhook_save_post', 10, 3);
+}
+
+if (!function_exists('jamstack_deployments_fire_webhook_transition_post_status')) {
+    /**
+     * Fire a request to the webhook when a the status is changed
+     *
+     * @param string $new
+     * @param string $old
+     * @param WP_Post $post
+     * @return void
+     */
+    function jamstack_deployments_fire_webhook_transition_post_status($new, $old, $post) {
+        \Crgeary\JAMstackDeployments\WebhookTrigger::triggerPostTransition($new, $old, $post);
+    }
+    add_action('transition_post_status', 'jamstack_deployments_fire_webhook_transition_post_status', 10, 3);
 }
 
 if (!function_exists('jamstack_deployments_fire_webhook_created_term')) {
