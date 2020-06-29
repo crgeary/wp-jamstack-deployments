@@ -46,7 +46,8 @@ class WebhookTrigger
         }
 
         $option = jamstack_deployments_get_options();
-        $post_types = apply_filters('jamstack_deployments_post_types', $option['webhook_post_types'] ?: [], $id, $post);
+        $saved_post_types = isset($option['webhook_post_types']) ? $option['webhook_post_types'] : [];
+        $post_types = apply_filters('jamstack_deployments_post_types', $saved_post_types, $id, $post);
 
         if (!in_array(get_post_type($id), $post_types, true)) {
             return;

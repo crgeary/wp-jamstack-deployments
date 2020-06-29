@@ -7,7 +7,7 @@ if (!function_exists('jamstack_deployments_get_options')) {
      * @return array
      */
     function jamstack_deployments_get_options() {
-        return get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY);
+        return get_option(CRGEARY_JAMSTACK_DEPLOYMENTS_OPTIONS_KEY, []);
     }
 }
 
