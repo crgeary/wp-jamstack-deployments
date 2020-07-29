@@ -23,6 +23,30 @@ if (!function_exists('jamstack_deployments_get_webhook_url')) {
     }
 }
 
+if (!function_exists('jamstack_deployments_get_access_token')) {
+    /**
+     * Return the webhook url
+     *
+     * @return string|null
+     */
+    function jamstack_deployments_get_access_token() {
+        $options = jamstack_deployments_get_options();
+        return isset($options['access_token']) ? $options['access_token'] : null;
+    }
+}
+
+if (!function_exists('jamstack_deployments_get_workflow_run_reference')) {
+    /**
+     * Return the webhook url
+     *
+     * @return string|null
+     */
+    function jamstack_deployments_get_workflow_run_reference() {
+        $options = jamstack_deployments_get_options();
+        return isset($options['workflow_run_reference']) ? $options['workflow_run_reference'] : null;
+    }
+}
+
 if (!function_exists('jamstack_deployments_get_webhook_method')) {
     /**
      * Return the webhook method (get/post)
