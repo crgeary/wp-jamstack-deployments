@@ -22,7 +22,9 @@ You can access the plugin's settings in WordPress by accessing the 'Settings' pa
 
 From this screen you can configure the following:
 
-- **Webhook URL** - The webhook URL that you have created to trigger a deployment. For more information on webhooks with Netlify [visit the Netlify documentation](https://www.netlify.com/docs/webhooks/).
+- **Webhook URL** - The webhook URL that you have created to trigger a deployment. For more information on webhooks with Netlify [visit the Netlify documentation](https://www.netlify.com/docs/webhooks/) or a workflow dispatch in Github Actions [visit Github API documentation](https://docs.github.com/en/rest/reference/actions#create-a-workflow-dispatch-event).
+- **Access Token** - Your Build Hook access token. Needed for Github API authentication. Create a personal access token for your Github account [here](https://github.com/settings/tokens)
+- **Workflow Run Reference** - The reference of a Github workflow run. The reference can be a branch, tag, or a commit SHA.
 - **Webhook Method** - This is the required method for the webhook request. The available options are `GET` or `POST`. By default the plugin will automatically select `POST`.
 - **Badge Image URL** - An optional field to specify the `src` of a badge, for services that support badges.
 - **Badge Link** - An optional field to specify the `href` of a badge, for services that support badges.
