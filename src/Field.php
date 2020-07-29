@@ -47,7 +47,7 @@ class Field
     private static function render_field($type, $args = [])
     {
         ?><div>
-      <input type="<?= $type ?>" class="regular-text" name="<?= esc_attr($args['name']); ?>" value="<?= esc_url($args['value']); ?>">
+      <input type="<?= $type ?>" class="regular-text" name="<?= esc_attr($args['name']); ?>" value="<?= $type == 'url' ? esc_url($args['value']) : esc_attr($args['value']); ?>">
         <?= !empty($args['description']) ? "<p class=\"description\">{$args['description']}</p>" : ''; ?>
       </div><?php
     }
