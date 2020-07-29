@@ -312,8 +312,8 @@ class WebhookTrigger
 
         if ($access_token) {
             $args['headers'] = [
-              'Content-Type'  => 'application/json',
-              'Authorization' => $access_token
+                'Content-Type'  => 'application/json',
+                'Authorization' => "Bearer {$access_token}"
             ];
         }
 
@@ -321,8 +321,10 @@ class WebhookTrigger
 
         if ($workflow_run_reference) {
             $args['body'] = wp_json_encode([
-              'ref' => $workflow_run_reference
+                'ref' => $workflow_run_reference
             ]);
+            $args['method'] = 'POST';
+            $args['data_format'] = 'body';
         }
 
         $args = apply_filters('jamstack_deployments_webhook_request_args', $args);
