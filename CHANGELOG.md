@@ -1,3 +1,8 @@
+## 1.1.0
+
+- Add settings to allow user to specify "post statuses" that trigger deployments
+- Add support for deploying when ACF options pages are updated
+
 ## 1.0.0
 
 - No longer uses `save_post` and `transition_post_status` to detect updates. Only uses `transition_post_status`
