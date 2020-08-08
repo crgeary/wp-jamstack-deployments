@@ -74,6 +74,14 @@ class Settings
             'description' => __( 'Only selected taxonomies will trigger a deployment when their terms are created, updated or deleted.', 'wp-jamstack-deployments' ),
             'legend' => 'Taxonomies'
         ]);
+
+        add_settings_field('webhook_post_statuses', __('Post Statuses', 'wp-jamstack-deployments'), ['Crgeary\JAMstackDeployments\Field', 'checkboxes'], $key, 'general', [
+            'name' => "{$key}[webhook_post_statuses]",
+            'value' => isset($option['webhook_post_statuses']) ? $option['webhook_post_statuses'] : ['private', 'publish', 'trash'],
+            'choices' => self::getStatuses(),
+            'description' => __('Only posts with the selected statuses will trigger a deployment.', 'wp-jamstack-deployments'),
+            'legend' => 'Post Statuses'
+        ]);
     }
 
     /**
@@ -124,6 +132,16 @@ class Settings
     }
 
     /**
+     * Get an array of statuses in name > label format
+     *
+     * @return array
+     */
+    protected static function getStatuses()
+    {
+        return array_merge(get_post_statuses(), ['trash' => __('Trash', 'wp-jamstack-deployments')]);
+    }
+
+    /**
      * Sanitize user input
      *
      * @var array $input
@@ -145,6 +163,10 @@ class Settings
 
         if (!isset($input['webhook_taxonomies']) || !is_array($input['webhook_taxonomies'])) {
             $input['webhook_taxonomies'] = [];
+        }
+
+        if (!isset($input['webhook_post_statuses']) || !is_array($input['webhook_post_statuses'])) {
+            $input['webhook_post_statuses'] = [];
         }
 
         return $input;
