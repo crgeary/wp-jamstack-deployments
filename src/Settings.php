@@ -75,12 +75,23 @@ class Settings
             'legend' => 'Taxonomies'
         ]);
 
+
         add_settings_field('webhook_post_statuses', __('Post Statuses', 'wp-jamstack-deployments'), ['Crgeary\JAMstackDeployments\Field', 'checkboxes'], $key, 'general', [
             'name' => "{$key}[webhook_post_statuses]",
             'value' => isset($option['webhook_post_statuses']) ? $option['webhook_post_statuses'] : ['private', 'publish', 'trash'],
             'choices' => self::getStatuses(),
             'description' => __('Only posts with the selected statuses will trigger a deployment.', 'wp-jamstack-deployments'),
             'legend' => 'Post Statuses'
+        ]);
+
+        add_settings_field('webhook_acf', __( 'ACF', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'checkboxes'], $key, 'general', [
+            'name' => "{$key}[webhook_acf]",
+            'value' => isset($option['webhook_acf']) ? $option['webhook_acf'] : [],
+            'choices' => [
+                'options' => __('Options Page', 'wp-jamstack-deployments'),
+            ],
+            'description' => __( 'Only selected ACF locations will trigger a deployment when they\'re saved.', 'wp-jamstack-deployments' ),
+            'legend' => 'ACF'
         ]);
     }
 
