@@ -37,7 +37,8 @@ class WebhookTrigger
             return;
         }
 
-        $statuses = apply_filters('jamstack_deployments_post_statuses', ['publish', 'private', 'trash'], $id, $post);
+        $saved_post_statuses = isset($option['webhook_post_statuses']) ? $option['webhook_post_statuses'] : ['publish', 'private', 'trash'];
+        $statuses = apply_filters('jamstack_deployments_post_statuses', $saved_post_statuses, $id, $post);
 
         if (!in_array(get_post_status($id), $statuses, true)) {
             return;
@@ -263,7 +264,8 @@ class WebhookTrigger
             return;
         }
 
-        $statuses = apply_filters('jamstack_deployments_post_statuses', ['publish', 'private', 'trash'], $id, $post);
+        $saved_post_statuses = isset($option['webhook_post_statuses']) ? $option['webhook_post_statuses'] : ['publish', 'private', 'trash'];
+        $statuses = apply_filters('jamstack_deployments_post_statuses', $saved_post_statuses, $id, $post);
 
         if (!in_array(get_post_status($id), $statuses, true)) {
             return;
