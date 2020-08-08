@@ -24,38 +24,6 @@ class WebhookTrigger
     }
 
     /**
-     * When a post is saved or updated, fire this
-     *
-     * @param int $id
-     * @param object $post
-     * @param bool $update
-     * @return void
-     */
-    public static function triggerSavePost($id, $post, $update)
-    {
-        if (wp_is_post_revision($id) || wp_is_post_autosave($id)) {
-            return;
-        }
-
-        $saved_post_statuses = isset($option['webhook_post_statuses']) ? $option['webhook_post_statuses'] : ['publish', 'private', 'trash'];
-        $statuses = apply_filters('jamstack_deployments_post_statuses', $saved_post_statuses, $id, $post);
-
-        if (!in_array(get_post_status($id), $statuses, true)) {
-            return;
-        }
-
-        $option = jamstack_deployments_get_options();
-        $saved_post_types = isset($option['webhook_post_types']) ? $option['webhook_post_types'] : [];
-        $post_types = apply_filters('jamstack_deployments_post_types', $saved_post_types, $id, $post);
-
-        if (!in_array(get_post_type($id), $post_types, true)) {
-            return;
-        }
-
-        self::fireWebhook();
-    }
-
-    /**
      * Fire a request to the webhook when a term has been created.
      *
      * @param int $id
@@ -69,7 +37,13 @@ class WebhookTrigger
             return;
         }
 
-        self::fireWebhook();
+        self::fireWebhook([
+            'action' => 'save_term',
+            'data' => [
+                'id' => $id,
+                'taxonomy_id' => $tax_id,
+            ]
+        ]);
     }
 
     /**
@@ -88,7 +62,13 @@ class WebhookTrigger
             return;
         }
 
-        self::fireWebhook();
+        self::fireWebhook([
+            'action' => 'delete_term',
+            'data' => [
+                'id' => $id,
+                'taxonomy_id' => $tax_id,
+            ]
+        ]);
     }
 
     /**
@@ -105,7 +85,13 @@ class WebhookTrigger
             return;
         }
         
-        self::fireWebhook();
+        self::fireWebhook([
+            'action' => 'edit_term',
+            'data' => [
+                'id' => $id,
+                'taxonomy_id' => $tax_id,
+            ]
+        ]);
     }
 
     /**
@@ -237,7 +223,10 @@ class WebhookTrigger
         
         check_admin_referer('crgeary_jamstack_deployment_trigger', 'crgeary_jamstack_deployment_trigger');
 
-        self::fireWebhook();
+        self::fireWebhook([
+            'action' => 'manual',
+            'data' => [],
+        ]);
 
         wp_redirect(admin_url('admin.php?page=wp-jamstack-deployments-settings'));
         exit;
@@ -271,7 +260,13 @@ class WebhookTrigger
             return;
         }
 
-        self::fireWebhook();
+        self::fireWebhook([
+            'action' => 'post_status_transition',
+            'data' => [
+                'id' => $id,
+                'status' => $new,
+            ]
+        ]);
     }
 
     /**
@@ -283,7 +278,10 @@ class WebhookTrigger
     {
         check_ajax_referer('wp-jamstack-deployments-button-nonce', 'security');
 
-        self::fireWebhook();
+        self::fireWebhook([
+            'action' => 'manual',
+            'data' => [],
+        ]);
 
         echo 1;
         exit;
@@ -292,9 +290,10 @@ class WebhookTrigger
     /**
      * Fire off a request to the webhook
      *
+     * @param null|array $body
      * @return WP_Error|array
      */
-    public static function fireWebhook()
+    public static function fireWebhook($body = null)
     {
         $webhook = jamstack_deployments_get_webhook_url();
 
@@ -306,8 +305,14 @@ class WebhookTrigger
             return;
         }
 
+        $body = apply_filters('jamstack_deployments_webhook_body_payload', $body);
+
         $args = apply_filters('jamstack_deployments_webhook_request_args', [
-            'blocking' => false
+            'blocking' => false,
+            'body' => json_encode($body),
+            'headers' => [
+                'Content-Type' => 'application/json; charset=utf-8',
+            ],
         ]);
 
         $method = jamstack_deployments_get_webhook_method();

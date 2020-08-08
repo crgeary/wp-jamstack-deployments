@@ -26,8 +26,8 @@ From this screen you can configure the following:
 - **Webhook Method** - This is the required method for the webhook request. The available options are `GET` or `POST`. By default the plugin will automatically select `POST`.
 - **Badge Image URL** - An optional field to specify the `src` of a badge, for services that support badges.
 - **Badge Link** - An optional field to specify the `href` of a badge, for services that support badges.
-- **Post Types** - A list of selectable post types that will trigger a Netlify deployment when created, updated or deleted. Note that only selected post types will trigger a deployment.
-- **Taxonomies** - A list of selectable taxonomies that will trigger a Netlify deployment when created, updated or deleted. Note that only selected taxonomies will trigger a deployment.
+- **Post Types** - A list of selectable post types that will trigger a deployment when created, updated or deleted. Note that only selected post types will trigger a deployment.
+- **Taxonomies** - A list of selectable taxonomies that will trigger a deployment when created, updated or deleted. Note that only selected taxonomies will trigger a deployment.
 
 **If you need more control, there are actions & filters you can use to get the job done.**
 
@@ -89,6 +89,12 @@ You can run code directly before or after you fire the webhook using the followi
 
 * Before: `jamstack_deployments_before_fire_webhook`
 * After: `jamstack_deployments_after_fire_webhook`
+
+## Changing Webhook Payload
+
+Since v1.2 the plugin will send a JSON payload with the request which contains information about the action that was taken to trigger the request. You can modify the payload with the `jamstack_deployments_webhook_body_payload` filter.
+
+**Payloads are only sent for POST requests.**
 
 ## Changing Webhook Request Arguments
 
