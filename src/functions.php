@@ -135,3 +135,19 @@ if (!function_exists('jamstack_deployments_fire_webhook_edit_term')) {
     }
     add_action('edit_term', 'jamstack_deployments_fire_webhook_edit_term', 10, 3);
 }
+
+if (!function_exists('jamstack_deployments_fire_webhook_acf_save_post')) {
+    /**
+     * Fire a request to the webhook when an ACF option page is saved
+     *
+     * @param int $id
+     * @return void
+     */
+    function jamstack_deployments_fire_webhook_acf_save_post($id) {
+        $option = jamstack_deployments_get_options();
+        if (isset($option['webhook_acf']) && in_array('options', $option['webhook_acf'], true) && 'options' === $id) {
+            \Crgeary\JAMstackDeployments\WebhookTrigger::fireWebhook();    
+        }
+    }
+    add_action('acf/save_post', 'jamstack_deployments_fire_webhook_acf_save_post', 10, 3);
+}

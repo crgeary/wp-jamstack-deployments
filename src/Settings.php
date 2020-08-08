@@ -74,6 +74,16 @@ class Settings
             'description' => __( 'Only selected taxonomies will trigger a deployment when their terms are created, updated or deleted.', 'wp-jamstack-deployments' ),
             'legend' => 'Taxonomies'
         ]);
+
+        add_settings_field('webhook_acf', __( 'ACF', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'checkboxes'], $key, 'general', [
+            'name' => "{$key}[webhook_acf]",
+            'value' => isset($option['webhook_acf']) ? $option['webhook_acf'] : [],
+            'choices' => [
+                'options' => __('Options Page', 'wp-jamstack-deployments'),
+            ],
+            'description' => __( 'Only selected ACF locations will trigger a deployment when they\'re saved.', 'wp-jamstack-deployments' ),
+            'legend' => 'ACF'
+        ]);
     }
 
     /**
