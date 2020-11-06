@@ -16,11 +16,13 @@ class WebhookTrigger
 
         add_action('admin_footer', [__CLASS__, 'adminBarCssAndJs']);
         add_action('wp_footer', [__CLASS__, 'adminBarCssAndJs']);
-        
+
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueueScripts']);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueueScripts']);
 
         add_action('wp_ajax_wp_jamstack_deployments_manual_trigger', [__CLASS__, 'ajaxTrigger']);
+
+        add_action('transition_post_status', [__CLASS__, 'triggerPostTransition'], 10, 3);
     }
 
     /**
@@ -37,22 +39,20 @@ class WebhookTrigger
             return;
         }
 
-        $saved_post_statuses = isset($option['webhook_post_statuses']) ? $option['webhook_post_statuses'] : ['publish', 'private', 'trash'];
-        $statuses = apply_filters('jamstack_deployments_post_statuses', $saved_post_statuses, $id, $post);
+        $statuses = apply_filters('jamstack_deployments_post_statuses', ['publish', 'private', 'trash'], $id, $post);
 
         if (!in_array(get_post_status($id), $statuses, true)) {
             return;
         }
 
         $option = jamstack_deployments_get_options();
-        $saved_post_types = isset($option['webhook_post_types']) ? $option['webhook_post_types'] : [];
-        $post_types = apply_filters('jamstack_deployments_post_types', $saved_post_types, $id, $post);
+        $post_types = apply_filters('jamstack_deployments_post_types', $option['webhook_post_types'] ?: [], $id, $post);
 
         if (!in_array(get_post_type($id), $post_types, true)) {
             return;
         }
 
-        self::fireWebhook();
+        // self::fireWebhook();
     }
 
     /**
@@ -69,7 +69,7 @@ class WebhookTrigger
             return;
         }
 
-        self::fireWebhook();
+        // self::fireWebhook();
     }
 
     /**
@@ -88,7 +88,7 @@ class WebhookTrigger
             return;
         }
 
-        self::fireWebhook();
+        // self::fireWebhook();
     }
 
     /**
@@ -104,8 +104,8 @@ class WebhookTrigger
         if (!self::canFireForTaxonomy($id, $tax_id, $tax_slug)) {
             return;
         }
-        
-        self::fireWebhook();
+
+        // self::fireWebhook();
     }
 
     /**
@@ -126,7 +126,7 @@ class WebhookTrigger
 
     /**
      * Show the admin bar css & js
-     * 
+     *
      * @todo move this somewhere else
      * @return void
      */
@@ -137,42 +137,41 @@ class WebhookTrigger
         }
 
         ?><style>
+#wpadminbar .wp-jamstack-deployments-button>a {
+  background-color: rgba(255, 255, 255, .2) !important;
+  color: #FFFFFF !important;
+}
 
-        #wpadminbar .wp-jamstack-deployments-button > a {
-            background-color: rgba(255, 255, 255, .2) !important;
-            color: #FFFFFF !important;
-        }
-        #wpadminbar .wp-jamstack-deployments-button > a:hover,
-        #wpadminbar .wp-jamstack-deployments-button > a:focus {
-            background-color: rgba(255, 255, 255, .25) !important;
-        }
+#wpadminbar .wp-jamstack-deployments-button>a:hover,
+#wpadminbar .wp-jamstack-deployments-button>a:focus {
+  background-color: rgba(255, 255, 255, .25) !important;
+}
 
-        #wpadminbar .wp-jamstack-deployments-button svg {
-            width: 12px;
-            height: 12px;
-            margin-left: 5px;
-        }
+#wpadminbar .wp-jamstack-deployments-button svg {
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+}
 
-        #wpadminbar .wp-jamstack-deployments-badge > .ab-item {
-            display: flex;
-            align-items: center;
-        }
-
-        </style><?php
-    }
+#wpadminbar .wp-jamstack-deployments-badge>.ab-item {
+  display: flex;
+  align-items: center;
+}
+</style><?php
+}
 
     /**
      * Enqueue js to the admin & frontend
-     * 
+     *
      * @return void
      */
     public static function enqueueScripts()
     {
         wp_enqueue_script(
             'wp-jamstack-deployments-adminbar',
-            CRGEARY_JAMSTACK_DEPLOYMENTS_URL.'/assets/admin.js',
+            CRGEARY_JAMSTACK_DEPLOYMENTS_URL . '/assets/admin.js',
             ['jquery'],
-            filemtime(CRGEARY_JAMSTACK_DEPLOYMENTS_PATH.'/assets/admin.js')
+            filemtime(CRGEARY_JAMSTACK_DEPLOYMENTS_PATH . '/assets/admin.js')
         );
 
         $button_nonce = wp_create_nonce('wp-jamstack-deployments-button-nonce');
@@ -209,7 +208,7 @@ class WebhookTrigger
                 'meta' => [
                     'class' => 'wp-jamstack-deployments-badge',
                     'target' => empty($option['deployment_badge_link_url']) ? '_self' : '_blank',
-                ]
+                ],
             ]);
         }
 
@@ -219,8 +218,8 @@ class WebhookTrigger
             'parent' => 'top-secondary',
             'href' => 'javascript:void(0)',
             'meta' => [
-                'class' => 'wp-jamstack-deployments-button'
-            ]
+                'class' => 'wp-jamstack-deployments-button',
+            ],
         ]);
     }
 
@@ -234,7 +233,7 @@ class WebhookTrigger
         if (!isset($_GET['action']) || 'jamstack-deployment-trigger' !== $_GET['action']) {
             return;
         }
-        
+
         check_admin_referer('crgeary_jamstack_deployment_trigger', 'crgeary_jamstack_deployment_trigger');
 
         self::fireWebhook();
@@ -256,22 +255,24 @@ class WebhookTrigger
     {
         $id = $post->ID;
         $option = jamstack_deployments_get_options();
-        
-        $saved_post_types = isset($option['webhook_post_types']) ? $option['webhook_post_types'] : [];
-        $post_types = apply_filters('jamstack_deployments_post_types', $saved_post_types, $id, $post);
+
+        $post_types = apply_filters('jamstack_deployments_post_types', $option['webhook_post_types'] ?: [], $id, $post);
 
         if (!in_array(get_post_type($id), $post_types, true)) {
             return;
         }
 
-        $saved_post_statuses = isset($option['webhook_post_statuses']) ? $option['webhook_post_statuses'] : ['publish', 'private', 'trash'];
-        $statuses = apply_filters('jamstack_deployments_post_statuses', $saved_post_statuses, $id, $post);
+        $statuses = apply_filters('jamstack_deployments_post_statuses', ['publish', 'private', 'trash'], $id, $post);
 
         if (!in_array(get_post_status($id), $statuses, true)) {
             return;
         }
 
-        self::fireWebhook();
+        if ($new !== $old) {
+            return;
+        }
+
+        // self::fireWebhook();
     }
 
     /**
@@ -307,7 +308,7 @@ class WebhookTrigger
         }
 
         $args = apply_filters('jamstack_deployments_webhook_request_args', [
-            'blocking' => false
+            'blocking' => false,
         ]);
 
         $method = jamstack_deployments_get_webhook_method();
