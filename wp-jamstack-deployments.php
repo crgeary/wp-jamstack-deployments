@@ -4,9 +4,9 @@
  * Plugin Name: SSWS JAMstack Deployments
  * Plugin URI: https://github.com/crgeary/wp-jamstack-deployments
  * Description: A WordPress plugin for JAMstack deployments on Netlify (and other platforms). This plugin has been modified for the BBTV project so that it doesn't trigger the hooks on SAVE.
- * Author: Christopher Geary
- * Author URI: https://crgeary.com
- * Version: 0.4.1
+ * Author: SSWS
+ * Author URI: https://ssws.ca
+ * Version: 0.4.2
  */
 
 if (!defined('ABSPATH')) {
