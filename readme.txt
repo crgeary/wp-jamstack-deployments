@@ -1,7 +1,7 @@
 === JAMstack Deployments ===
 Contributors: crgeary
 Tags: jamstack, netlify, webhook
-Tested up to: 5.4.2
+Tested up to: 5.5.3
 Requires PHP: 5.6
 License: GPL-3.0
 License URI: https://github.com/crgeary/wp-jamstack-deployments/blob/master/LICENSE

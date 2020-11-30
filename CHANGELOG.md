@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Add width/height to admin bar SVG to fix FOUC
+
 ## 1.1.0
 
 - Add settings to allow user to specify "post statuses" that trigger deployments
