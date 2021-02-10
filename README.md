@@ -48,7 +48,7 @@ add_filter('jamstack_deployments_post_types', function ($post_types, $post_id, $
 
 ### Taxonomies
 
-Like post types, you can choose which taxonmies should trigger builds from the plugin settings. But there may be times you need more control. For this, you can use the `jamstack_deployments_taxonomies` filter. By defualt, this filter contains an array of taxonomies that we monitor.
+Like post types, you can choose which taxonmies should trigger builds from the plugin settings. But there may be times you need more control. For this, you can use the `jamstack_deployments_taxonomies` filter. By default, this filter contains an array of taxonomies that we monitor.
 
 For example, if you want to force the plugin to trigger builds for the `'post_tag'` taxonomy regardless of the settings, you can do so with the following code:
 
