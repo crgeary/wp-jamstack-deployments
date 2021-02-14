@@ -33,8 +33,20 @@ class Settings
         add_settings_field('webhook_url', __( 'Build Hook URL', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'url'], $key, 'general', [
             'name' => "{$key}[webhook_url]",
             'value' => jamstack_deployments_get_webhook_url(),
-            'description' => sprintf( __( 'Your Build Hook URL. This is the URL that is pinged to start building/deploying the JAMstack site. See <a href="%1s" target="_blank" rel="noopener noreferrer">Netlify docs</a> or see <a href="%2s" target="_blank" rel="noopener noreferrer">Zeit docs</a>.', 'wp-jamstack-deployments' ), 'https://docs.netlify.com/configure-builds/build-hooks/', 'https://zeit.co/docs/v2/advanced/deploy-hooks/' )
-        ]); 
+            'description' => sprintf( __( 'Your Build Hook URL. This is the URL that is pinged to start building/deploying the JAMstack site. See <a href="%1s" target="_blank" rel="noopener noreferrer">Netlify docs</a> or see <a href="%2s" target="_blank" rel="noopener noreferrer">Zeit docs</a> or see <a href="%3s" target="_blank" rel="noopener noreferrer">Github API docs</a>.', 'wp-jamstack-deployments' ), 'https://docs.netlify.com/configure-builds/build-hooks/', 'https://zeit.co/docs/v2/advanced/deploy-hooks/', 'https://docs.github.com/en/rest/reference/actions#create-a-workflow-dispatch-event' )
+        ]);
+
+        add_settings_field('access_token', __( 'Access Token', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'password'], $key, 'general', [
+            'name' => "{$key}[access_token]",
+            'value' => jamstack_deployments_get_access_token(),
+            'description' => sprintf( __( 'Your Build Hook access token. Needed for Github API authentication. Create a personal access token for your Github account <a href="%1s">here</a>', 'wp-jamstack-deployments' ), 'https://github.com/settings/tokens' )
+        ]);
+
+        add_settings_field('workflow_run_reference', __( 'Workflow Run Reference', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'text'], $key, 'general', [
+            'name' => "{$key}[workflow_run_reference]",
+            'value' => jamstack_deployments_get_workflow_run_reference(),
+            'description' => __( 'The reference of a Github workflow run. The reference can be a branch, tag, or a commit SHA.', 'wp-jamstack-deployments' )
+        ]);
 
         add_settings_field('webhook_method', __( 'Hook Method', 'wp-jamstack-deployments' ), ['Crgeary\JAMstackDeployments\Field', 'select'], $key, 'general', [
             'name' => "{$key}[webhook_method]",
@@ -162,6 +174,10 @@ class Settings
     {
         if (!empty($input['webhook_url'])) {
             $input['webhook_url'] = trim($input['webhook_url']);
+        }
+
+        if (!empty($input['access_token'])) {
+            $input['access_token'] = trim($input['access_token']);
         }
 
         if (isset($input['webhook_method']) && !in_array($input['webhook_method'], ['get', 'post'])) {

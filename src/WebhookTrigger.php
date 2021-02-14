@@ -16,7 +16,7 @@ class WebhookTrigger
 
         add_action('admin_footer', [__CLASS__, 'adminBarCssAndJs']);
         add_action('wp_footer', [__CLASS__, 'adminBarCssAndJs']);
-        
+
         add_action('wp_enqueue_scripts', [__CLASS__, 'enqueueScripts']);
         add_action('admin_enqueue_scripts', [__CLASS__, 'enqueueScripts']);
 
@@ -104,7 +104,7 @@ class WebhookTrigger
         if (!self::canFireForTaxonomy($id, $tax_id, $tax_slug)) {
             return;
         }
-        
+
         self::fireWebhook();
     }
 
@@ -126,7 +126,7 @@ class WebhookTrigger
 
     /**
      * Show the admin bar css & js
-     * 
+     *
      * @todo move this somewhere else
      * @return void
      */
@@ -163,7 +163,7 @@ class WebhookTrigger
 
     /**
      * Enqueue js to the admin & frontend
-     * 
+     *
      * @return void
      */
     public static function enqueueScripts()
@@ -234,7 +234,7 @@ class WebhookTrigger
         if (!isset($_GET['action']) || 'jamstack-deployment-trigger' !== $_GET['action']) {
             return;
         }
-        
+
         check_admin_referer('crgeary_jamstack_deployment_trigger', 'crgeary_jamstack_deployment_trigger');
 
         self::fireWebhook();
@@ -256,7 +256,7 @@ class WebhookTrigger
     {
         $id = $post->ID;
         $option = jamstack_deployments_get_options();
-        
+
         $saved_post_types = isset($option['webhook_post_types']) ? $option['webhook_post_types'] : [];
         $post_types = apply_filters('jamstack_deployments_post_types', $saved_post_types, $id, $post);
 
@@ -306,9 +306,30 @@ class WebhookTrigger
             return;
         }
 
-        $args = apply_filters('jamstack_deployments_webhook_request_args', [
+        $args = [
             'blocking' => false
-        ]);
+        ];
+
+        $access_token = jamstack_deployments_get_access_token();
+
+        if ($access_token) {
+            $args['headers'] = [
+                'Content-Type'  => 'application/json',
+                'Authorization' => "Bearer {$access_token}"
+            ];
+        }
+
+        $workflow_run_reference = jamstack_deployments_get_workflow_run_reference();
+
+        if ($workflow_run_reference) {
+            $args['body'] = wp_json_encode([
+                'ref' => $workflow_run_reference
+            ]);
+            $args['method'] = 'POST';
+            $args['data_format'] = 'body';
+        }
+
+        $args = apply_filters('jamstack_deployments_webhook_request_args', $args);
 
         $method = jamstack_deployments_get_webhook_method();
 

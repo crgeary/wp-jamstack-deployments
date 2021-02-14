@@ -5,6 +5,28 @@ namespace Crgeary\JAMstackDeployments;
 class Field
 {
     /**
+     * Render an input[type=text] field
+     *
+     * @param array $args
+     * @return void
+     */
+    public static function text($args = [])
+    {
+        self::render_field('text', $args);
+    }
+
+    /**
+     * Render an input[type=password] field
+     *
+     * @param array $args
+     * @return void
+     */
+    public static function password($args = [])
+    {
+        self::render_field('password', $args);
+    }
+
+    /**
      * Render an input[type=url] field
      *
      * @param array $args
@@ -12,10 +34,22 @@ class Field
      */
     public static function url($args = [])
     {
+        self::render_field('url', $args);
+    }
+
+    /**
+     * Render an input[type=url] field
+     *
+     * @param string $type
+     * @param  array  $args
+     * @return void
+     */
+    private static function render_field($type, $args = [])
+    {
         ?><div>
-            <input type="url" class="regular-text" name="<?= esc_attr($args['name']); ?>" value="<?= esc_url($args['value']); ?>">
-            <?= !empty($args['description']) ? "<p class=\"description\">{$args['description']}</p>" : ''; ?>
-        </div><?php
+      <input type="<?= $type ?>" class="regular-text" name="<?= esc_attr($args['name']); ?>" value="<?= $type == 'url' ? esc_url($args['value']) : esc_attr($args['value']); ?>">
+        <?= !empty($args['description']) ? "<p class=\"description\">{$args['description']}</p>" : ''; ?>
+      </div><?php
     }
 
     /**
@@ -43,7 +77,7 @@ class Field
      * @return void
      */
     public static function checkboxes($args = [])
-    {   
+    {
         $args['value'] = is_array($args['value']) ? $args['value'] : [$args['value']];
 
         ?><fieldset>
