@@ -40,10 +40,11 @@ if (!function_exists('jamstack_deployments_fire_webhook')) {
     /**
      * Fire a request to the webhook.
      *
+     * @param null|array $body
      * @return void
      */
-    function jamstack_deployments_fire_webhook() {
-        \Crgeary\JAMstackDeployments\WebhookTrigger::fireWebhook();
+    function jamstack_deployments_fire_webhook($body = null) {
+        \Crgeary\JAMstackDeployments\WebhookTrigger::fireWebhook($body);
     }
 }
 
@@ -51,27 +52,12 @@ if (!function_exists('jamstack_deployments_force_fire_webhook')) {
     /**
      * Fire a request to the webhook immediately. 
      *
+     * @param null|array $body
      * @return void
      */
-    function jamstack_deployments_force_fire_webhook() {
-        \Crgeary\JAMstackDeployments\WebhookTrigger::fireWebhook();
+    function jamstack_deployments_force_fire_webhook($body = null) {
+        \Crgeary\JAMstackDeployments\WebhookTrigger::fireWebhook($body);
     }
-}
-
-if (!function_exists('jamstack_deployments_fire_webhook_save_post')) {
-    /**
-     * Fire a request to the webhook when a post has been saved.
-     *
-     * @param int $id
-     * @param WP_Post $post
-     * @param boolean $update
-     * @return void
-     */
-    function jamstack_deployments_fire_webhook_save_post($id, $post, $update) {
-        \Crgeary\JAMstackDeployments\WebhookTrigger::triggerSavePost($id, $post, $update);
-    }
-    // duplicates functionality of 'transition_post_status'
-    // add_action('save_post', 'jamstack_deployments_fire_webhook_save_post', 10, 3);
 }
 
 if (!function_exists('jamstack_deployments_fire_webhook_transition_post_status')) {
@@ -146,7 +132,12 @@ if (!function_exists('jamstack_deployments_fire_webhook_acf_save_post')) {
     function jamstack_deployments_fire_webhook_acf_save_post($id) {
         $option = jamstack_deployments_get_options();
         if (isset($option['webhook_acf']) && in_array('options', $option['webhook_acf'], true) && 'options' === $id) {
-            \Crgeary\JAMstackDeployments\WebhookTrigger::fireWebhook();    
+            \Crgeary\JAMstackDeployments\WebhookTrigger::fireWebhook([
+                'action' => 'acf_save',
+                'data' => [
+                    'id' => $id,
+                ]
+            ]);    
         }
     }
     add_action('acf/save_post', 'jamstack_deployments_fire_webhook_acf_save_post', 10, 3);
