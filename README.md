@@ -14,6 +14,10 @@ This plugin provides a way to fire off a request to a webhook when a post, page 
 
 Clone the contents of this repository to your WordPress plugins folder and activate the plugin via the installed plugins page.
 
+Please do note to install PHP mbstring package for this plugin to work. Below is an example command for installing with PHP 7.2
+
+    sudo apt-get install php7.2-mbstring
+
 ## Configuration
 
 The plugin attempts to trigger builds when you update your content, and has settings that you can use to define what post types & taxonomies should be monitored.
