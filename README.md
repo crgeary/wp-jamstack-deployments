@@ -87,12 +87,29 @@ add_action('user_register', 'jamstack_deployments_fire_webhook');
 
 You can run code directly before or after you fire the webhook using the following actions:
 
-* Before: `jamstack_deployments_before_fire_webhook`
-* After: `jamstack_deployments_after_fire_webhook`
+- Before: `jamstack_deployments_before_fire_webhook`
+- After: `jamstack_deployments_after_fire_webhook`
 
 ## Changing Webhook Request Arguments
 
 You can modify the arguments sent to the `wp_remote_safe_*` functions using the `jamstack_deployments_webhook_request_args` filter.
 
+For example, if you need to send an authorization header and a JSON body to your webhook, you can do so with the following code:
+
+```php
+add_filter('jamstack_deployments_webhook_request_args', function ($args) {
+    $args = [
+      'headers' => [
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer your-token'
+      ],
+      'body' => '{"foo": "bar"}'
+    ];
+
+    return $args;
+  }, 10, 1);
+```
+
 ## License
+
 [GPL-3.0](LICENSE.md)
